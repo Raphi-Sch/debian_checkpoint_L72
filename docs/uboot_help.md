@@ -1,0 +1,124 @@
+# U-Boot help from device
+
+- **?** : alias for 'help'
+- **base** : print or set address offset
+- **bdinfo** : print Board Info structure
+- **boot** : boot default, i.e., run 'bootcmd'
+- **boot_init_before_kernel**: boot_init_before_kernel
+- **bootd** : boot default, i.e., run 'bootcmd'
+- **bootm** : boot application image from memory
+- **bootmenu** : ANSI terminal bootmenu
+- **bootp** : boot image via network using BOOTP/TFTP protocol
+- **bootz** : boot Linux zImage image from memory
+- **cmp** : memory compare
+- **confirm_msg** : get user input and updates "?" varialbe to 0 if 'y' was entered
+- **coninfo** : print console devices and information
+- **cp** : memory copy
+- cp_blob_update: cp_blob_update  : set blob params from uboot enviroment.
+- cpu_aborts_enable_set: Set enabling state of CPU aborts
+- cpu_set_speed: Set CPU speed
+- crc32   : checksum calculation
+- date    : get/set/reset date & time
+- ddr_ecc_poison: DDR ECC poisoning
+- ddr_ecc_stats: DDR ECC statistics
+- ddr_training_results: DDR training results
+- dev_info: Show the device configuration values
+- dhcp    : boot image via network using DHCP/TFTP protocol
+- dram_margins: The command provides current DRAM RDQS/WDQS margins by running a shmoo based on the DDR - controller BIST feature
+- dtt     : Read temperature and voltage from Digital Thermometer and Thermostat
+- echo    : echo args to console
+- editenv : edit environment variable
+- eeprom_per_device: EEPROM per device operations
+- env     : environment handling commands
+- erase   : erase FLASH memory
+- eth_1g_params_set: configure 1G link parameters.these parameters will also be applied in Linux
+- eth_freeze_serdes_settings: freeze serdes parameters to be used in the upper layer (disable by default)
+    - enabling it will cause the upper layer to avoid replacing these parameters
+    - enabled mode should be used in case the serdes parameter were set in the u-boot
+- eth_link_training_enable: enable / disable link training
+- eth_lm_debug_enable: enable / disable link management debug enable
+- eth_mac_mode_set: override the mac mode from the device tree
+- eth_retimer_config: override retimer configuration
+- exit    : exit script
+- ext4load: load binary file from a Ext4 filesystem
+- ext4ls  : list files in a directory (default /)
+- ext4size: determine a file's size
+- false   : do nothing, unsuccessfully
+- fdt     : flattened device tree utility commands
+- flash_contents_boot_mode_default_app_set: Set default application loaded by the pre-boot code
+- flash_contents_boot_mode_default_app_show: Show default application loaded by the pre-boot code
+- flash_contents_instance_invalidate: Invalidate a boot instance
+- flash_contents_instance_revalidate: Revalidate a boot instance
+- flash_contents_obj_info_print: Print a specific flash object information
+- flash_contents_obj_read: Read a specific flash object
+- flash_contents_obj_read_mem: Read a specific flash object from memory
+- flash_contents_obj_update: Update a specific flash object
+- flash_contents_obj_validate: Validate a specific flash object
+- flash_contents_set_dev: Set flash contents current device
+- flash_contents_toc_print: Print the flash contents TOC
+- flinfo  : print FLASH memory information
+- go      : start application at address 'addr'
+- gpio    : query and control gpio pins
+- help    : print command description/usage
+- i2c     : I2C sub-system
+- iminfo  : print header information for application image
+- imxtract: extract a part of a multi-image
+- incenv  : increment environment variable
+- iodma_init: Initialize the RAID and memory services accelerator
+- iodma_memcpy: Memory copy using the RAID and memory services accelerator
+- iodma_memset: Memory set using the RAID and memory services accelerator
+- iodma_terminate: Terminates the RAID and memory services accelerator
+- is_nand_boot: Returns 1 if boot device is NAND
+- itest   : return true/false on integer compare
+- lcd_print: Clears LCD display
+- ledCtl  : ledCtl <LED > <color>
+- loadb   : load binary file over serial line (kermit mode)
+- loads   : load S-Record file over serial line
+- loadx   : load binary file over serial line (xmodem mode)
+- loady   : load binary file over serial line (ymodem mode)
+- loop    : infinite loop on address range
+- md      : memory display
+- md5sum  : compute MD5 message digest
+- mdio    : MDIO utility commands
+- mem_pattern_set: set values alternately according to the even and odd values
+- menu    : menu
+- mii     : MII utility commands
+- mm      : memory modify (auto-incrementing address)
+- mtest   : simple RAM read/write test
+- muio_mux: Multi usage I/O pins (MUIO) multiplexing control : debug
+- mw      : memory write (fill)
+- nand    : NAND sub-system
+- nboot   : boot from NAND device
+- network : network [enable|disable|status]
+- nfs     : boot image via network using NFS protocol
+- nm      : memory modify (constant address)
+- pca953x : pca953x gpio access
+- pcf8575 : pcf8575 gpio access
+- pci     : list and access PCI Configuration Space
+- ping    : send ICMP ECHO_REQUEST to network host
+- printenv: print environment variables
+- protect : enable or disable FLASH write protection
+- pxe     : commands to get and boot from pxe files
+- reset   : Perform RESET of the CPU
+- run     : run commands in an environment variable
+- saveenv : save environment variables to persistent storage
+- scripth : Show help menu for available scripts
+- scsi    : SCSI sub-system
+- scsiboot: boot from SCSI device
+- serdes  : Serdes debug
+- setenv  : set environment variables
+- setenvmem: set environment variable from memory
+- sf      : SPI flash sub-system
+- showvar : print local hushshell variables
+- sleep   : delay execution for some time
+- source  : run script from memory
+- switch  : Switch utility commands
+- sysboot : command to get and boot from syslinux files
+- test    : minimal test like /bin/sh
+- tftpboot: boot image via network using TFTP protocol
+- tftpput : TFTP put command, for uploading files to a server
+- thermal_get: Thermal sensor get readout
+- thermal_init: Initialize the thermal sensor
+- true    : do nothing, successfully
+- version : print monitor, compiler and linker version
+- wfi     : CPU wait for interrupt (CPU idle)
