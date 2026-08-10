@@ -1,4 +1,4 @@
-/debian-armhf
+/debian*-armhf
 *.img
 *.bin
 *.gz
