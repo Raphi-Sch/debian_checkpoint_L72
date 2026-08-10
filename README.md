@@ -2,5 +2,5 @@
 
 Specs :
 - CPU  : 4 cores ARMv7 @ 1.7Ghz
-- RAM  : 2048 MiO
-- NAND : 2048 MiO
+- RAM  : 2048 MiB
+- NAND : 2048 MiB
