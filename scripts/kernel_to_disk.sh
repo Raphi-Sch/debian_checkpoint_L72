@@ -3,7 +3,7 @@
 ./mount_disk.sh
 
 if [ -f "../img/linux_kernel.bin" ] & [ -f "../img/device_tree.bin" ]; then
-    echo "Extracting kernel from img..."
+    echo "Copying kernel from disk..."
     sudo dd if=../img/device_tree.bin of=/mnt/cpboot/boot/dt.img
     sudo dd if=../img/linux_kernel.bin of=/mnt/cpboot/boot/uImage bs=4096 skip=1
     sync
