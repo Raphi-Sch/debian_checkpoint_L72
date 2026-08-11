@@ -1,13 +1,11 @@
 #!/bin/sh
 
-mkdir ../debian12-armhf
-
 sudo debootstrap \
   --arch=armhf \
   --foreign \
   --include=nano,openssh-server,kmod,wget,bash-completion \
   bookworm \
-  ../debian11-armhf \
+  ../debian12-armhf \
   http://deb.debian.org/debian
 
 
