@@ -1,8 +1,9 @@
 #!/bin/sh
 
-sudo chroot /srv/debian-armhf /usr/bin/qemu-arm-static /bin/bash
+sudo chroot ../debian12-armhf /usr/bin/qemu-arm-static /bin/bash -c "
 
 # Set root password
+echo \"Set new root password for device\"
 passwd root
 
 # Hostname
@@ -47,3 +48,5 @@ ln -sf /usr/share/zoneinfo/Europe/Brussels /etc/localtime
 
 # Exit chroot
 exit
+
+"
