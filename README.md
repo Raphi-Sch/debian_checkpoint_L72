@@ -8,6 +8,39 @@
 - USB : 2 USB 3.0 ports
 - CONSOLE : RJ45 (Cisco) + USB MiniB
 
+# Getting started
+
+## Prerequisite
+
+- USB Mini-B cable to connect console or RJ45 (Cisco) console cable
+- USB Drive formated as FAT32 or EXT3 (EXT4 is doable, but the kernel 3.10 doesn't recognise newer EXT4 args)
+
+## 1. Boot in maintenance mode
+
+- Connect console cable
+- Connect device to power
+- Using a terminal emulator (PuTTY, Picocom, ...), connect to the serial console (baudrate: 115200)
+- Hit 'CTRL+C' when prompted
+- Choose option 3
+- Maintenance mode is ready when you see the following : `[Expert@Gateway-ID-ABCDEFG]#`
+
+If a maintenance password was set and you don't know it, do a factory reset of the device either by holding "FACTORY DEFAULT" for 10sec when pluging in the power or by choosing option 4 in the boot menu.
+
+## 2. Dump NAND
+
+- Copy 'nand_to_usb.sh' to the USB drive
+- Boot into maintenance mode
+- Plug USB drive on device, first partition of the drive is automatically mounted under `/mnt/usb1`
+- Execute dumping script, it should take a few minutes.
+```sh
+cd /mnt/usb1
+./nand_to_usb.sh
+```
+- Examine result, you should have 10 files.
+- Unmount drive `umount /mne/usb1`
+- Unplug drive from device 
+
+
 ## Boot options
 
 ### Boot from TFTP uImage (kernel) and USB root drive
