@@ -20,8 +20,8 @@
 - Connect console cable
 - Connect device to power
 - Using a terminal emulator (PuTTY, Picocom, ...), connect to the serial console (baudrate: 115200)
-- Hit 'CTRL+C' when prompted
-- Choose option 3
+- Hit `CTRL+C` when prompted
+- Choose `option 3`
 - Maintenance mode is ready when you see the following : `[Expert@Gateway-ID-ABCDEFG]#`
 
 If a maintenance password was set and you don't know it, do a factory reset of the device either by holding "FACTORY DEFAULT" for 10sec when pluging in the power or by choosing option 4 in the boot menu.
@@ -31,15 +31,19 @@ If a maintenance password was set and you don't know it, do a factory reset of t
 - Copy 'nand_to_usb.sh' to the USB drive
 - Boot into maintenance mode
 - Plug USB drive on device, first partition of the drive is automatically mounted under `/mnt/usb1`
-- Execute dumping script, it should take a few minutes.
-```sh
-cd /mnt/usb1
-./nand_to_usb.sh
-```
+- Execute `cd /mnt/usb1; ./nand_to_usb.sh`, it should take a few minutes.
 - Examine result, you should have 10 files.
 - Unmount drive `umount /mne/usb1`
-- Unplug drive from device 
+- Copy all files from USB drive to `img/` 
 
+To confirmation your dump is working, you can try to boot the kernel image from a TFTP server.
+
+- First, convert the raw dump into a uImage : `dd if=linux_kernel.bin of=uImage bs=4096 skip=1`. 
+This is necessary because the first 4096bytes are vendor comments not a uImage header.
+- Copy uImage to a TFTP server
+- Reboot device. When prompted hit 'CTRL+C'
+- Choose hidden `option b`
+- Follow the instruction from device
 
 ## Boot options
 
