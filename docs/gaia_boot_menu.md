@@ -13,5 +13,5 @@
 
 ### Hidden options :
 - 0 : Current system informations
-- a : Vendor menu
-- b : Boot any uImage from TFTP server
+- a : Vendor menu (password protected)
+- b : Boot any uImage from TFTP server (useful for recovery from unbootable state)
