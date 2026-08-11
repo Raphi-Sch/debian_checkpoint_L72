@@ -26,7 +26,7 @@ if [ -f "../img/linux_kernel.bin" ]; then
     sudo cpio -id < ../initramfs.cpio
    
 else
-    echo "'linux_kernel.bin' don't exist.\nFirst run 'on_device/nand_to_img.sh' on the device and then copy them into the folder img/"
+    echo "'linux_kernel.bin' don't exist.\nFirst run 'nand_to_usb.sh' on the device and then copy them into the folder img/"
 fi
 
 exit
