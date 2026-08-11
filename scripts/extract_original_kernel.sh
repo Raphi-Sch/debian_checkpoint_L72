@@ -1,6 +1,6 @@
 #!/bin/sh
 
-mkdir -p ../kernel/3.10/initramfs
+mkdir -p ../kernel/3.10/
 
 if [ -f "../img/linux_kernel.bin" ]; then
     echo "Copying kernel from 'img/linux_kernel.bin' to 'kernel/3.10/kernel.bin'..."
@@ -11,7 +11,7 @@ if [ -f "../img/linux_kernel.bin" ]; then
     echo "Extracting kernel..."
     if [ -d "./_kernel.bin.extracted" ]; then
         echo "Removing previous extraction..."
-        
+        rm -R _kernel.bin.extracted
     fi
     binwalk -e kernel.bin
 
@@ -22,9 +22,14 @@ if [ -f "../img/linux_kernel.bin" ]; then
     gunzip -c initramfs.gz > initramfs.cpio
 
     echo "Unpacking initramfs..."
-    cd initramfs/
-    sudo cpio -id < ../initramfs.cpio
-   
+    if [ -d "./initramfs" ]; then
+        echo "Removing previous version..."
+        sudo rm -R initramfs
+    fi
+    (mkdir initramfs; cd initramfs/; sudo cpio -id < ../initramfs.cpio)
+
+    echo "Cleanup..."
+    rm initramfs.cpio initramfs.gz kernel.bin uImage
 else
     echo "'linux_kernel.bin' don't exist.\nFirst run 'nand_to_usb.sh' on the device and then copy them into the folder img/"
 fi
