@@ -1,5 +1,6 @@
-/debian*-armhf
 *.img
 *.bin
 *.gz
 *.raw
+/debian*-armhf
+/kernel
