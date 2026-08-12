@@ -3,21 +3,27 @@
 mkdir -p ../kernel/original/
 
 if [ -f "../img/linux_kernel.bin" ]; then
+    # Cleaning dump
     echo "Copying kernel from '../img/linux_kernel.bin' to '../kernel/original/kernel.bin'..."
     dd if=../img/linux_kernel.bin of=../kernel/original/uImage bs=4096 skip=1 # The fist 4096 bytes are vendor comments
     cd ../kernel/original/
     dd if=uImage of=kernel.bin bs=64 skip=1 # The next 64 bytes are uImage header
 
+    # Extracting kernel from image
     echo "Extracting kernel..."
     if [ -d "./_kernel.bin.extracted" ]; then
         echo "Removing previous extraction..."
         rm -R _kernel.bin.extracted
     fi
-    binwalk -e kernel.bin
+    binwalk -e -q kernel.bin
 
-    echo "Extracting initramfs..."
-    dd if=_kernel.bin.extracted/46F4 bs=1 skip=7689196 of=initramfs.gz
+    # Ask user to enter entry point
+    binwalk _kernel.bin.extracted/46F4
+    read -p "Enter the decimal entry point of 'gzip compressed data, has original file name: initramfs.cpio.anp' : " initramfsEntry
+    echo "Extracting initramfs starting at byte '$initramfsEntry'..."
+    dd if=_kernel.bin.extracted/46F4 bs=1 skip=$initramfsEntry of=initramfs.gz
 
+    # Decompressing initramfs
     echo "Decompressing initramfs..."
     gunzip -c initramfs.gz > initramfs.cpio
 
