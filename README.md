@@ -61,10 +61,29 @@ This is necessary because the first 4096bytes are vendor comments not a uImage h
 - Change directory to `kernel/original/initramfs/`
 - Rename vendor init `mv sbin/init sbin/init.vendor`
 - Remove old symlink `rm -f init`
-- Create a new `init` file with 
+- Create a new `init` file with the following
 ```sh
+#!/bin/sh
 
+mount -t proc     proc     /proc
+mount -t sysfs    sysfs    /sys
+mount -t devtmpfs devtmpfs /dev
 
+echo "=== Custom init ==="
+mkdir -p /debianRoot
+
+if mount -t ext3 /dev/sda2 /debianRoot 2>/dev/null; then
+    echo "=== Debian on /dev/sda2 mounted — switching root ==="
+    mount --move /proc /debianRoot/proc
+    mount --move /sys  /debianRoot/sys
+    mount --move /dev  /debianRoot/dev
+    exec switch_root /debianRoot /sbin/init.sysvinit
+fi
+
+echo "=== USB failed ==="
+echo "Falling back to vendor init in 10sec..."
+sleep 10
+exec /sbin/init.vendor
 ```
 - Make it executable `chmod +x init`
 
@@ -83,6 +102,8 @@ TO DO : WRITE METHOD
 - Boot into maintenance mode
 - Change boot option in device
 ```sh
+fw_setenv bootcmd 'boot_init_before_kernel; tftpboot $loadaddr_payload uImage; tftpboot 0x06000000 initramfs.gz; setenv bootargs root=/dev/sda2 rw console=ttyS0,115200 pci=pcie_bus_perf mem=2046M; bootm $loadaddr_payload 0x06000000 $fdtaddr'
 
+fw_printenv bootcmd
 ```
 - Reboot device
