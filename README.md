@@ -14,6 +14,8 @@
 
 - USB Mini-B cable to connect console or RJ45 (Cisco) console cable
 - USB Drive formated as FAT32 or EXT3 (EXT4 is doable, but the kernel 3.10 doesn't recognise newer EXT4 args)
+- Following package on a Linux machine :
+    - u-boot-tools
 
 ## 1. Boot in maintenance mode
 
@@ -45,12 +47,42 @@ This is necessary because the first 4096bytes are vendor comments not a uImage h
 - Choose hidden `option b`
 - Follow the instruction from device
 
-## Boot options
+## 3. Create a Debian ARM USB disk
+- Change directory to `script/`
+- Run `bootstrap_debian_12.sh`
+- Run `configure_debian_12.sh`
+- Create 2 parition on a USB Disk, first 512M formated ext3 and second remaining space formated ext3
+- Open `mount_disk.sh` and edit UUID to match your partitions UUID
+- Run `debian_12_to_disk.sh`
 
-### Boot from TFTP uImage (kernel) and USB root drive
+## 4. Extract and modify initramfs
 
+- From the script directory, run `extract_initramfs.sh`. This will automatically extract the initramfs from `linux_kernel.bin`
+- Change directory to `kernel/original/initramfs/`
+- Rename vendor init `mv sbin/init sbin/init.vendor`
+- Remove old symlink `rm -f init`
+- Create a new `init` file with 
 ```sh
-fw_setenv bootcmd 'boot_init_before_kernel; setenv bootargs root=/dev/sda2 ip=[DEVICE-IP]:[TFTP-IP]:[GATEWAY]:[NETMASK]:checkpoint:eth1:none console=ttyS0,115200 pci=pcie_bus_perf mem=2046M rdinit=/bin/sh; tftpboot $loadaddr_payload ${tftpdir}uImage; bootm $loadaddr_payload - $fdtaddr'
-```
 
-Replace [DEVICE-IP], [TFTP-IP], [GATEWAY] and [NETMASK]
+
+```
+- Make it executable `chmod +x init`
+
+## 5. Repack initramfs
+
+### A. As a standalone file
+- Change directory to `scripts/`
+- Run `build_initramfs_standalone.sh` to create a standalone file
+
+### B. Inside the kernel uImage
+TO DO : WRITE METHOD
+
+## 6. Boot new initramfs
+
+### A. From TFTP with original kernel uImage and `initramfs.uimg`
+- Boot into maintenance mode
+- Change boot option in device
+```sh
+
+```
+- Reboot device

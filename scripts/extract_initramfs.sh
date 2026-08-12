@@ -3,7 +3,7 @@
 mkdir -p ../kernel/original/
 
 if [ -f "../img/linux_kernel.bin" ]; then
-    echo "Copying kernel from 'img/linux_kernel.bin' to 'kernel/original/kernel.bin'..."
+    echo "Copying kernel from '../img/linux_kernel.bin' to '../kernel/original/kernel.bin'..."
     dd if=../img/linux_kernel.bin of=../kernel/original/uImage bs=4096 skip=1 # The fist 4096 bytes are vendor comments
     cd ../kernel/original/
     dd if=uImage of=kernel.bin bs=64 skip=1 # The next 64 bytes are uImage header
