@@ -57,7 +57,6 @@ This is necessary because the first 4096bytes are vendor comments not a uImage h
 - Change directory to `script/`
 - Run `bootstrap_debian_12.sh`
 - Run `configure_debian_12.sh`
-- Enable TTY over Serial by adding `T0:2345:respawn:/sbin/getty -L ttyS0 115200 vt100` to `debian12-armhf/etc/inittab`
 - Create 2 parition on a USB Disk, first 512M formated ext3 and second remaining space formated ext3
 - Open `mount_disk.sh` and edit UUID to match your partitions UUID
 - Run `debian_12_to_disk.sh`
