@@ -49,6 +49,7 @@ To confirmation your dump is working, you can try to boot the kernel image from 
 - First, convert the raw dump into a uImage : `dd if=linux_kernel.bin of=uImage bs=4096 skip=1`. 
 This is necessary because the first 4096bytes are vendor comments not a uImage header.
 - Copy uImage to a TFTP server
+- Connect ethernet cable to port `DMZ`
 - Reboot device. When prompted hit `CTRL+C`
 - Choose hidden `option b`
 - Follow the instruction from device
@@ -112,7 +113,12 @@ TO DO : WRITE METHOD
 - Change boot option in device
 ```sh
 fw_setenv bootcmd 'boot_init_before_kernel; tftpboot $loadaddr_payload uImage; tftpboot 0x06000000 initramfs.uimg; setenv bootargs root=/dev/sda2 rw console=ttyS0,115200 pci=pcie_bus_perf mem=2046M; bootm $loadaddr_payload 0x06000000 $fdtaddr'
-
-fw_printenv bootcmd
 ```
+
+Or with network
+
+```sh
+fw_setenv bootcmd 'boot_init_before_kernel; tftpboot $loadaddr_payload uImage; tftpboot 0x06000000 initramfs.uimg; setenv bootargs root=/dev/sda2 rw ip=[DEVICE-IP]::[GATEWAY-IP]:[MASK]:checkpoint:eth1:none console=ttyS0,115200 pci=pcie_bus_perf mem=2046M; bootm $loadaddr_payload 0x06000000 $fdtaddr'
+```
+
 - Reboot device
