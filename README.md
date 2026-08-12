@@ -73,7 +73,7 @@ This is necessary because the first 4096bytes are vendor comments not a uImage h
 - Change directory to `kernel/original/initramfs/`
 - Rename vendor init `mv sbin/init sbin/init.vendor`
 - Remove old symlink `rm -f init`
-- Create a new `init` file in directory `sbin/` with the following
+- Create a new `init` file in directory `initramfs/` with the following
 ```sh
 #!/bin/sh
 
@@ -100,7 +100,6 @@ sleep 30
 exec /sbin/reboot
 ```
 - Make it executable `chmod +x init`
-- Create symlink `ln -s sbin/init init`
 
 ## 5. Repack initramfs
 
