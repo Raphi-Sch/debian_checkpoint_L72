@@ -49,6 +49,7 @@ To confirmation your dump is working, you can try to boot the kernel image from 
 - First, convert the raw dump into a uImage : `dd if=linux_kernel.bin of=uImage bs=4096 skip=1`. 
 This is necessary because the first 4096bytes are vendor comments not a uImage header.
 - Copy uImage to a TFTP server
+- Connect ethernet cable to port `DMZ`
 - Reboot device. When prompted hit `CTRL+C`
 - Choose hidden `option b`
 - Follow the instruction from device
