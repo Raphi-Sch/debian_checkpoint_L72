@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Compressing initramfs..."
-(cd ../kernel/original/initramfs find . | sudo cpio -H newc -o | gzip -9 > ../_initramfs.gz)
+(cd ../kernel/original/initramfs; find . | sudo cpio -H newc -o | gzip -9 > ../_initramfs.gz)
 
 echo "Packing initramfs..."
 cd ../kernel/original/initramfs
