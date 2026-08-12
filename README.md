@@ -107,7 +107,7 @@ TO DO : WRITE METHOD
 - Boot into maintenance mode
 - Change boot option in device
 ```sh
-fw_setenv bootcmd 'boot_init_before_kernel; tftpboot $loadaddr_payload uImage; tftpboot 0x06000000 initramfs.gz; setenv bootargs root=/dev/sda2 rw console=ttyS0,115200 pci=pcie_bus_perf mem=2046M; bootm $loadaddr_payload 0x06000000 $fdtaddr'
+fw_setenv bootcmd 'boot_init_before_kernel; tftpboot $loadaddr_payload uImage; tftpboot 0x06000000 initramfs.uimg; setenv bootargs root=/dev/sda2 rw console=ttyS0,115200 pci=pcie_bus_perf mem=2046M; bootm $loadaddr_payload 0x06000000 $fdtaddr'
 
 fw_printenv bootcmd
 ```
