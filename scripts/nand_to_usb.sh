@@ -4,6 +4,8 @@ echo "Coping NAND to USB1..."
 
 cd /mnt/usb1
 
+fw_printenv > checkpoint.env
+
 dd if=/dev/mtd0 of=al_boot.bin
 dd if=/dev/mtd1 of=device_tree.bin
 dd if=/dev/mtd2 of=linux_kernel.bin
