@@ -2,17 +2,31 @@
 
 sudo chroot ../debian12-armhf /usr/bin/qemu-arm-static /bin/bash -c "
 
+# Use sysvinit instead of systemd
+apt install -y sysvinit-core busybox
+
+update-rc.d networking disable 2> /dev/null
+update-rc.d dhcpd disable 2> /dev/null
+update-rc.d dhclient disable 2> /dev/null
+update-rc.d udev disable 2> /dev/null
+update-rc.d systemd-udevd disable 2> /dev/null
+update-rc.d rsyslog disable 2> /dev/null
+
+rm -f /etc/rc*.d/*udev*
+rm -f /etc/rc*.d/*systemd*
+rm -f /etc/rc*.d/*dbus*
+
 # Set root password
 echo \"Set new root password for device\"
 passwd root
 
 # Hostname
-echo "checkpoint-debian" > /etc/hostname
+echo "checkpoint" > /etc/hostname
 
 # Hosts file
 cat > /etc/hosts << 'EOF'
 127.0.0.1   localhost
-127.0.1.1   checkpoint-debian
+127.0.1.1   checkpoint
 EOF
 
 # fstab
@@ -29,6 +43,11 @@ ln -sf /lib/systemd/system/serial-getty@.service \
 
 # Disable unused gettys (only serial matters here)
 systemctl disable getty@tty1 2>/dev/null || true
+
+# Enable TTY over Serial
+cat > /etc/fstab << 'EOF'
+
+EOF
 
 # Basic network config via /etc/network/interfaces
 cat > /etc/network/interfaces << 'EOF'

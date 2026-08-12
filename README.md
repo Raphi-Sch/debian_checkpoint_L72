@@ -51,6 +51,7 @@ This is necessary because the first 4096bytes are vendor comments not a uImage h
 - Change directory to `script/`
 - Run `bootstrap_debian_12.sh`
 - Run `configure_debian_12.sh`
+- Enable TTY over Serial by adding `T0:2345:respawn:/sbin/getty -L ttyS0 115200 vt100` to `debian12-armhf/etc/inittab`
 - Create 2 parition on a USB Disk, first 512M formated ext3 and second remaining space formated ext3
 - Open `mount_disk.sh` and edit UUID to match your partitions UUID
 - Run `debian_12_to_disk.sh`
@@ -62,7 +63,7 @@ This is necessary because the first 4096bytes are vendor comments not a uImage h
 - Change directory to `kernel/original/initramfs/`
 - Rename vendor init `mv sbin/init sbin/init.vendor`
 - Remove old symlink `rm -f init`
-- Create a new `init` file with the following
+- Create a new `init` file in directory `sbin/` with the following
 ```sh
 #!/bin/sh
 
@@ -71,22 +72,25 @@ mount -t sysfs    sysfs    /sys
 mount -t devtmpfs devtmpfs /dev
 
 echo "=== Custom init ==="
-mkdir -p /debianRoot
+echo "Waiting for USB initialization..."
+sleep 3
 
+mkdir -p /debianRoot
 if mount -t ext3 /dev/sda2 /debianRoot 2>/dev/null; then
     echo "=== Debian on /dev/sda2 mounted — switching root ==="
     mount --move /proc /debianRoot/proc
     mount --move /sys  /debianRoot/sys
     mount --move /dev  /debianRoot/dev
-    exec switch_root /debianRoot /sbin/init.sysvinit
+    exec /sbin/switch_root /debianRoot /sbin/init
 fi
 
 echo "=== USB failed ==="
-echo "Falling back to vendor init in 10sec..."
-sleep 10
-exec /sbin/init.vendor
+echo "Rebooting in 30sec"
+sleep 30
+exec /sbin/reboot
 ```
 - Make it executable `chmod +x init`
+- Create symlink `ln -s sbin/init init`
 
 ## 5. Repack initramfs
 
