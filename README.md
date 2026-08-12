@@ -15,7 +15,13 @@
 - USB Mini-B cable to connect console or RJ45 (Cisco) console cable
 - USB Drive formated as FAT32 or EXT3 (EXT4 is doable, but the kernel 3.10 doesn't recognise newer EXT4 args)
 - Following package on a Linux machine :
+    - debootstrap
+    - qemu-user-static
+    - binfmt-support
     - u-boot-tools
+    - tftpd-hpa
+    - binwalk
+    - cpio
 
 ## 1. Boot in maintenance mode
 
