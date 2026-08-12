@@ -1,5 +1,9 @@
 # Debian on CheckPoint L72 (770) Firewall Appliance
 
+![checkpoint](checkpoint.png)
+
+![screenshot](screenshot.png)
+
 ## Device specifications
 - CPU  : 4 cores ARMv7 @ 1.7Ghz
 - RAM  : 2048 MiB
