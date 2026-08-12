@@ -35,7 +35,7 @@ if [ -f "../img/linux_kernel.bin" ]; then
     (mkdir initramfs; cd initramfs/; sudo cpio -id < ../initramfs.cpio)
 
     echo "Cleanup..."
-    rm initramfs.cpio initramfs.gz kernel.bin uImage
+    rm _initramfs.cpio _initramfs.gz kernel.bin uImage
 else
     echo "'linux_kernel.bin' don't exist.\nFirst run 'nand_to_usb.sh' on the device and then copy them into the folder img/"
 fi
