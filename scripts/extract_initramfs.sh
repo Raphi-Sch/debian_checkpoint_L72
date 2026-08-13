@@ -1,12 +1,13 @@
 #!/bin/sh
 
-mkdir -p ../kernel/original/
+mkdir -p ../kernel/linux-3.10-al/
 
 if [ -f "../img/linux_kernel.bin" ]; then
     # Cleaning dump
-    echo "Copying kernel from '../img/linux_kernel.bin' to '../kernel/original/kernel.bin'..."
-    dd if=../img/linux_kernel.bin of=../kernel/original/uImage bs=4096 skip=1 # The fist 4096 bytes are vendor comments
-    cd ../kernel/original/
+    echo "Copying kernel from '../img/linux_kernel.bin' to '../kernel/linux-3.10-al/kernel.bin'..."
+    dd if=../img/linux_kernel.bin of=../kernel/linux-3.10-al/uImage bs=4096 skip=1 # The fist 4096 bytes are vendor comments
+
+    cd ../kernel/linux-3.10-al/
     dd if=uImage of=kernel.bin bs=64 skip=1 # The next 64 bytes are uImage header
 
     # Extracting kernel from image
@@ -28,14 +29,14 @@ if [ -f "../img/linux_kernel.bin" ]; then
     gunzip -c initramfs.gz > initramfs.cpio
 
     echo "Unpacking initramfs..."
-    if [ -d "./initramfs" ]; then
+    if [ -d "../initramfs" ]; then
         echo "Removing previous version..."
         sudo rm -R initramfs
     fi
-    (mkdir initramfs; cd initramfs/; sudo cpio -id < ../initramfs.cpio)
+    (mkdir ../initramfs; cd ../initramfs/; sudo cpio -id < ../linux-3.10-al/initramfs.cpio)
 
     echo "Cleanup..."
-    rm _initramfs.cpio _initramfs.gz kernel.bin uImage
+    rm initramfs.cpio initramfs.gz kernel.bin uImage
 else
     echo "'linux_kernel.bin' don't exist.\nFirst run 'nand_to_usb.sh' on the device and then copy them into the folder img/"
 fi

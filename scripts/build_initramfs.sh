@@ -7,10 +7,10 @@ KERNEL_SRC=_kernel.bin.extracted/46F4
 ZIMAGE_GZIP_OFFSET=18164   # 0x46F4
 
 echo "Compressing initramfs..."
-(cd ../kernel/original/initramfs
+(cd ../kernel/initramfs
  sudo find . | sudo cpio -H newc -o | gzip -9 > ../_initramfs.gz)
 
-cd ../kernel/original/
+cd ../kernel/linux-3.10-al/
 
 echo "Extracting last block..."
 dd if=$KERNEL_SRC of=_last bs=1 skip=$LAST_OFFSET
