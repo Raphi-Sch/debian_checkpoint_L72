@@ -70,10 +70,11 @@ This is necessary because the first 4096bytes are vendor comments not a uImage h
 ## 4. Extract and modify initramfs
 
 - From the script directory, run `extract_initramfs.sh`. This will automatically extract the initramfs from `linux_kernel.bin`
-- Change directory to `kernel/original/initramfs/`
+- Change directory to `kernel/initramfs/`
 - Rename vendor init `mv sbin/init sbin/init.vendor`
 - Remove old symlink `rm -f init`
 - Create a new `init` file in directory `initramfs/` with the following
+
 ```sh
 #!/bin/sh
 
@@ -100,16 +101,13 @@ exec /bin/sh
 
 ## 5. Repack initramfs
 
-### A. As a standalone file
 - Change directory to `scripts/`
-- Run `build_initramfs_standalone.sh` to create a standalone file
-
-### B. Inside the kernel uImage
-TO DO : WRITE METHOD
+- Run `build_initramfs.sh` to create a uImage initramfs
 
 ## 6. Boot new initramfs
 
 ### A. From TFTP with original kernel uImage and `initramfs.uimg`
+
 - Boot into maintenance mode
 - Change boot option in device
 ```sh
@@ -123,3 +121,4 @@ fw_setenv bootcmd 'boot_init_before_kernel; tftpboot $loadaddr_payload uImage; t
 ```
 
 - Reboot device
+
