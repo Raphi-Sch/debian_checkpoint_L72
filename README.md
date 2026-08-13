@@ -85,19 +85,16 @@ echo "=== Custom init ==="
 echo "Waiting for USB initialization..."
 sleep 3
 
-mkdir -p /debianRoot
-if mount -t ext3 /dev/sda2 /debianRoot 2>/dev/null; then
+mkdir -p /debian
+if mount -t ext3 /dev/sda2 /debian 2>/dev/null; then
     echo "=== Debian on /dev/sda2 mounted — switching root ==="
-    mount --move /proc /debianRoot/proc
-    mount --move /sys  /debianRoot/sys
-    mount --move /dev  /debianRoot/dev
-    exec /sbin/switch_root /debianRoot /sbin/init
+    mount --move /proc /debian/proc
+    mount --move /sys  /debian/sys
+    mount --move /dev  /debian/dev
+    exec /sbin/switch_root /debian /sbin/init
 fi
-
 echo "=== USB failed ==="
-echo "Rebooting in 30sec"
-sleep 30
-exec /sbin/reboot
+exec /bin/sh
 ```
 - Make it executable `chmod +x init`
 
