@@ -2,6 +2,5 @@
 *.bin
 *.gz
 *.raw
-*.env
 /debian*-armhf
 /kernel
