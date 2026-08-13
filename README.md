@@ -12,8 +12,6 @@
 - USB : 2 USB 3.0 ports
 - CONSOLE : RJ45 (Cisco) + USB MiniB
 
-# Getting started
-
 ## Prerequisite
 
 - USB Mini-B cable to connect console or RJ45 (Cisco) console cable
@@ -26,6 +24,8 @@
     - tftpd-hpa
     - binwalk
     - cpio
+
+# Booting Debian with original kernel 3.10
 
 ## 1. Boot in maintenance mode
 
@@ -122,3 +122,7 @@ fw_setenv bootcmd 'boot_init_before_kernel; tftpboot $loadaddr_payload uImage; t
 
 - Reboot device
 
+
+# Booting Debian with newer kernel
+
+## 1. Download kernel
