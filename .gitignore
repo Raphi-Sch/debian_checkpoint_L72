@@ -3,4 +3,5 @@
 *.gz
 *.raw
 /debian*-armhf
-/kernel
+/kernel/*
+!kernel/vendor.config
