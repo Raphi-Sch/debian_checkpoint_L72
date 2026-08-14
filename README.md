@@ -142,5 +142,6 @@ mkimage -A arm -O linux -T kernel -C none \
   -a 0x00008000 -e 0x00008000 \
   -n "Linux-6.6-alpine" \
   -d arch/arm/boot/zImage \
-  /srv/tftp/uImage-6.6
+  /srv/tftp/uImage-custom
 ```
+
