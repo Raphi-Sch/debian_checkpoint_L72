@@ -122,7 +122,7 @@ fw_setenv bootcmd 'boot_init_before_kernel; tftpboot $loadaddr_payload uImage; t
 - Reboot device
 - Device should now boot Debian
 
-# Booting Debian with newer kernel
+# Booting Debian with newer kernel and initramfs
 
 ## Prerequisite
 
@@ -138,9 +138,36 @@ sudo apt install gcc-arm-linux-gnueabihf \
 arm-linux-gnueabihf-gcc --version
 ```
 
-## 1. Download kernel
+## 1. Build initramsfs with busybox
 
-## 2. Compile kernel with vendor config
+- Download busybox source files
+
+```sh
+export ARCH=arm
+export CROSS_COMPILE=arm-linux-gnueabihf-
+
+make defconfig
+make menuconfig
+make install
+
+mkdir initramfs/
+mkdir -p initramfs/bin initramfs/sbin initramfs/etc initramfs/proc initramfs/sys initramfs/dev initramfs/usr/bin initramfs/usr/sbin
+cp -a _install/* initramfs/
+
+cd initramfs/
+sudo mknod -m 600 dev/console c 5 1
+sudo mknod -m 666 dev/null    c 1 3
+sudo mknod -m 666 dev/zero    c 1 5
+sudo mknod -m 666 dev/tty     c 5 0
+sudo mknod -m 660 dev/ttyS0   c 4 64
+```
+
+- Copy previous `init` script at the root of `initramfs/`
+- `chmod +x initramfs/init`
+
+## 2. Build kernel with vendor config
+
+- Download kernel at https://kernel.org
 
 ```sh
 export ARCH=arm
