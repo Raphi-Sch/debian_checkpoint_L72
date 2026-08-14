@@ -124,6 +124,20 @@ fw_setenv bootcmd 'boot_init_before_kernel; tftpboot $loadaddr_payload uImage; t
 
 # Booting Debian with newer kernel
 
+## Prerequisite
+
+```sh
+# Install ARM cross-compiler
+sudo apt install gcc-arm-linux-gnueabihf \
+                 binutils-arm-linux-gnueabihf \
+                 libssl-dev bc flex bison \
+                 u-boot-tools \
+                 libncurses-dev
+
+# Verify
+arm-linux-gnueabihf-gcc --version
+```
+
 ## 1. Download kernel
 
 ## 2. Compile kernel with vendor config
@@ -140,7 +154,7 @@ make -j$(nproc) zImage dtbs modules
 
 mkimage -A arm -O linux -T kernel -C none \
   -a 0x00008000 -e 0x00008000 \
-  -n "Linux-6.6-alpine" \
+  -n "Linux-custom" \
   -d arch/arm/boot/zImage \
   /srv/tftp/uImage-custom
 ```
