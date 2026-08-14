@@ -104,10 +104,9 @@ exec /bin/sh
 - Change directory to `scripts/`
 - Run `build_initramfs.sh` to create a uImage initramfs
 
-## 6. Boot new initramfs
+## 6. Boot new initramfs from TFTP with original kernel
 
-### A. From TFTP with original kernel uImage and `initramfs.uimg`
-
+- Make sure both `initramfs.uimg` and `uImage` are in at the root of tftp server
 - Boot into maintenance mode
 - Change boot option in device
 ```sh
@@ -121,8 +120,27 @@ fw_setenv bootcmd 'boot_init_before_kernel; tftpboot $loadaddr_payload uImage; t
 ```
 
 - Reboot device
-
+- Device should now boot Debian
 
 # Booting Debian with newer kernel
 
 ## 1. Download kernel
+
+## 2. Compile kernel with vendor config
+
+```sh
+export ARCH=arm
+export CROSS_COMPILE=arm-linux-gnueabihf-
+
+cp ../vendor.config .config
+
+make olddefconfig
+
+make -j$(nproc) zImage dtbs modules
+
+mkimage -A arm -O linux -T kernel -C none \
+  -a 0x00008000 -e 0x00008000 \
+  -n "Linux-6.6-alpine" \
+  -d arch/arm/boot/zImage \
+  /srv/tftp/uImage-6.6
+```
