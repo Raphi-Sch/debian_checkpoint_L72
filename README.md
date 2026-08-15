@@ -165,8 +165,20 @@ sudo mknod -m 660 dev/ttyS0   c 4 64
 - Copy previous `init` script at the root of `initramfs/`
 - `chmod +x initramfs/init`
 
+## 2. Write initramfs to NAND
+```sh
+# Flash
+flash_erase /dev/mtd4 0 0
+nandwrite -p /dev/mtd4 /tmp/initramfs.uimg
+```
 
-## 2. Build kernel with vendor config
+MTD4 start at 0xf000000 but their is a 0x80000 in Uboot.
+
+```sh
+fw_setenv bootcmd 'boot_init_before_kernel; nand read.e 0x06000000 0xef80000 0x200000; nand set_partition_offset $primary_offset; nand read.e $loadaddr $primary_offset $kernel_size; setenv bootargs root=/dev/sda1 rw console=ttyS0,115200 pci=pcie_bus_perf mem=2046M init=/sbin/init; bootm $loadaddr_payload 0x06000000 $fdtaddr'
+```
+
+## x. Build kernel with vendor config
 
 > [!CAUTION] 
 > This doesn't work because mainline never got a proper ARMv7 Alpine PCIe driver.
