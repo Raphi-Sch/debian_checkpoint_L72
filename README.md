@@ -82,19 +82,24 @@ mount -t proc     proc     /proc
 mount -t sysfs    sysfs    /sys
 mount -t devtmpfs devtmpfs /dev
 
-echo "=== Custom init ==="
-echo "Waiting for USB initialization..."
-sleep 3
-
 mkdir -p /debian
-if mount -t ext3 /dev/sda2 /debian 2>/dev/null; then
-    echo "=== Debian on /dev/sda2 mounted — switching root ==="
-    mount --move /proc /debian/proc
-    mount --move /sys  /debian/sys
-    mount --move /dev  /debian/dev
-    exec /sbin/switch_root /debian /sbin/init
-fi
-echo "=== USB failed ==="
+
+retry=3
+
+while [ $retry -gt 0 ]; do
+    echo "Waiting for SD card..."
+    sleep 5
+    if mount -t ext3 /dev/sda1 /debian 2> /dev/null; then
+        mount --move /proc /debian/proc
+        mount --move /sys  /debian/sys
+        mount --move /dev  /debian/dev
+        exec /sbin/switch_root /debian /sbin/init
+    fi
+    echo "Failed, retry ($retry)"
+    retry=$(($retry - 1))
+done
+
+echo "=== Welcome to initramfs shell ==="
 exec /bin/sh
 ```
 - Make it executable `chmod +x init`
