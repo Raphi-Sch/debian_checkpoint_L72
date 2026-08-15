@@ -177,7 +177,7 @@ cp ../vendor.config .config
 
 make olddefconfig
 
-make -j$(nproc) zImage dtbs modules
+make -j$(nproc) zImage dtbs modules 2>&1 | tee build.log
 
 mkimage -A arm -O linux -T kernel -C none \
   -a 0x00008000 -e 0x00008000 \
