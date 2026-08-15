@@ -165,7 +165,11 @@ sudo mknod -m 660 dev/ttyS0   c 4 64
 - Copy previous `init` script at the root of `initramfs/`
 - `chmod +x initramfs/init`
 
+
 ## 2. Build kernel with vendor config
+
+> [!CAUTION] 
+> This doesn't work because mainline never got a proper ARMv7 Alpine PCIe driver.
 
 - Download kernel at https://kernel.org
 
