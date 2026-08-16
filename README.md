@@ -62,7 +62,12 @@ This is necessary because the first 4096bytes are vendor comments not a uImage h
 - Change directory to `script/`
 - Run `bootstrap_debian_12.sh`
 - Run `configure_debian_12.sh`
-- Create 2 parition on a USB Disk, first 512M formated ext3 and second remaining space formated ext3
+- Create 1 parition on a USB Disk or SD Card, remove 64bits and metadata_csum as it's not supported by kernel 3.10
+
+```sh
+sudo mkfs.ext4 -O ^metadata_csum,^64bits /dev/sdX
+```
+
 - Open `mount_disk.sh` and edit UUID to match your partitions UUID
 - Run `debian_12_to_disk.sh`
 - Unplug drive from Linux PC and plug it on device
@@ -89,7 +94,7 @@ retry=3
 while [ $retry -gt 0 ]; do
     echo "Waiting for SD card..."
     sleep 5
-    if mount -t ext3 /dev/sda1 /debian 2> /dev/null; then
+    if mount -t ext4 /dev/sda1 /debian 2> /dev/null; then
         mount --move /proc /debian/proc
         mount --move /sys  /debian/sys
         mount --move /dev  /debian/dev
