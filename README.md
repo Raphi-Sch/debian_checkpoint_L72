@@ -93,7 +93,8 @@ retry=3
 
 while [ $retry -gt 0 ]; do
     echo "Mouting SD card..."
-    if mount -t ext3 /dev/sda1 /debian 2> /dev/null; then
+    if mount -t ext4 /dev/sda1 /debian 2> /dev/null; then
+        mkdir -p /debian/proc /debian/sys debian/dev
         mount --move /proc /debian/proc
         mount --move /sys  /debian/sys
         mount --move /dev  /debian/dev
@@ -106,6 +107,7 @@ done
 
 echo "=== Welcome to initramfs shell ==="
 exec /bin/sh
+
 ```
 - Make it executable `chmod +x init`
 
