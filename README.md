@@ -65,7 +65,7 @@ This is necessary because the first 4096bytes are vendor comments not a uImage h
 - Create 1 parition on a USB Disk or SD Card, remove 64bits and metadata_csum as it's not supported by kernel 3.10
 
 ```sh
-sudo mkfs.ext4 -O ^metadata_csum,^64bits /dev/sdX
+sudo mkfs.ext3 /dev/sdX
 ```
 
 - Open `mount_disk.sh` and edit UUID to match your partitions UUID
@@ -93,7 +93,7 @@ retry=3
 
 while [ $retry -gt 0 ]; do
     echo "Mouting SD card..."
-    if mount -t ext4 /dev/sda1 /debian 2> /dev/null; then
+    if mount -t ext3 /dev/sda1 /debian 2> /dev/null; then
         mkdir -p /debian/proc /debian/sys debian/dev
         mount --move /proc /debian/proc
         mount --move /sys  /debian/sys
