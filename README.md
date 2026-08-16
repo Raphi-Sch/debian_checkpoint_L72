@@ -92,9 +92,8 @@ mkdir -p /debian
 retry=3
 
 while [ $retry -gt 0 ]; do
-    echo "Waiting for SD card..."
-    sleep 5
-    if mount -t ext4 /dev/sda1 /debian 2> /dev/null; then
+    echo "Mouting SD card..."
+    if mount -t ext3 /dev/sda1 /debian 2> /dev/null; then
         mount --move /proc /debian/proc
         mount --move /sys  /debian/sys
         mount --move /dev  /debian/dev
@@ -102,6 +101,7 @@ while [ $retry -gt 0 ]; do
     fi
     echo "Failed, retry ($retry)"
     retry=$(($retry - 1))
+    sleep 5
 done
 
 echo "=== Welcome to initramfs shell ==="
@@ -176,13 +176,15 @@ sudo mknod -m 660 dev/ttyS0   c 4 64
 - `chmod +x initramfs/init`
 
 ## 2. Write initramfs to NAND
+
+Erase NAND and write new initramfs
+
 ```sh
-# Flash
 flash_erase /dev/mtd4 0 0
 nandwrite -p /dev/mtd4 /tmp/initramfs.uimg
 ```
 
-MTD4 start at 0xf000000 but their is a 0x80000 in Uboot.
+MTD4 start at 0xf000000 but their is 0x80000 offset in Uboot. `0xf000000 - 0x80000 = 0xef80000`
 
 ```sh
 fw_setenv bootcmd 'boot_init_before_kernel; nand read.e 0x06000000 0xef80000 0x200000; nand set_partition_offset $primary_offset; nand read.e $loadaddr $primary_offset $kernel_size; setenv bootargs root=/dev/sda1 rw console=ttyS0,115200 pci=pcie_bus_perf mem=2046M init=/sbin/init; bootm $loadaddr_payload 0x06000000 $fdtaddr'
